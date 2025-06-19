@@ -51,8 +51,9 @@ final class TaskController extends AbstractController
         // Traitement du formulaire : si soumis et valide, sauvegarde et redirection
         if ($form->isSubmitted() && $form->isValid()) {
             $task->setStatut(false);
-            $taskRepository->save($task);
-            return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+            dd($task);
+            // $taskRepository->save($task);
+            // return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
         }
 
         // Affiche le formulaire pour création
