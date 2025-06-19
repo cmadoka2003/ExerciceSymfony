@@ -23,6 +23,8 @@ RUN composer install --no-dev --optimize-autoloader \
     && php bin/console cache:clear \
     && php bin/console assets:install public
 
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
 EXPOSE 8000
 
-CMD ["php", "-S", "0.0.0.0:8000", "-t", "public"]
+CMD ["/entrypoint.sh"]
