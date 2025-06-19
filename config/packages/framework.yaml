@@ -3,11 +3,7 @@ framework:
     secret: '%env(APP_SECRET)%'
 
     # Note that the session will be started ONLY if you read or write from it.
-    session: 
-        handler_id: null
-        save_path: '%env(resolve:PHP_SESSION_SAVE_PATH)%'
-    
-    trusted_proxies: '%env(TRUSTED_PROXIES)%'
+    session: true
 
     #esi: true
     #fragments: true

@@ -42,9 +42,6 @@ RUN chown -R symfony:symfony /app
 
 USER symfony
 
-RUN mkdir -p /var/lib/php/sessions && chmod 777 /var/lib/php/sessions
-ENV PHP_SESSION_SAVE_PATH=/var/lib/php/sessions
-
 # Installer les dépendances PHP sans les dev
 RUN composer install --no-dev --optimize-autoloader \
     && php bin/console cache:clear \
