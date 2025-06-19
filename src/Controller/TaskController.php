@@ -15,7 +15,6 @@ use Symfony\Component\Routing\Attribute\Route;
  * 
  * Routes préfixées par "/task".
  */
-#[Route('/task')]
 final class TaskController extends AbstractController
 {
     /**
@@ -24,7 +23,7 @@ final class TaskController extends AbstractController
      * @param TaskRepository $taskRepository Le repository pour accéder aux tâches
      * @return Response La réponse HTTP contenant la vue avec la liste des tâches
      */
-    #[Route(name: 'app_task_index', methods: ['GET'])]
+    #[Route('/' ,name: 'app_task_index', methods: ['GET'])]
     public function index(TaskRepository $taskRepository): Response
     {
         // Récupère toutes les tâches en base et les transmet à la vue
