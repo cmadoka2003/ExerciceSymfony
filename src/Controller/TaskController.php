@@ -49,6 +49,8 @@ final class TaskController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            dump($request->getSession()->all());
+            dump($this->isCsrfTokenValid('token_id', $request->request->get('_token')));
             dump($form->getErrors(true, false)); // Ajoute ceci
         }
         // Traitement du formulaire : si soumis et valide, sauvegarde et redirection

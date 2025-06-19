@@ -43,7 +43,6 @@ class TaskForm extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Task::class,  // Lie ce formulaire à l’entité Task
-            'csrf_protection' => true,
         ]);
     }
 }
