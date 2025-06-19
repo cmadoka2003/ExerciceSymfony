@@ -46,23 +46,14 @@ final class TaskController extends AbstractController
 
         // Création du formulaire lié à la nouvelle tâche
         $form = $this->createForm(TaskForm::class, $task);
-        // $form->handleRequest($request);
-
-        // // Traitement du formulaire : si soumis et valide, sauvegarde et redirection
-        // if ($form->isSubmitted() && $form->isValid()) {
-        //     $task->setStatut(false);
-        //     dd($task);
-        //     // $taskRepository->save($task);
-        //     // return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
-        // }
         $form->handleRequest($request);
 
-        dd([
-            'isSubmitted' => $form->isSubmitted(),
-            'isValid' => $form->isValid(),
-            'errors' => (string) $form->getErrors(true, false),
-            'data' => $request->request->all(),
-        ]);
+        // Traitement du formulaire : si soumis et valide, sauvegarde et redirection
+        if ($form->isSubmitted() && $form->isValid()) {
+            $task->setStatut(false);
+            $taskRepository->save($task);
+            return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+        }
 
         // Affiche le formulaire pour création
         return $this->render('task/new.html.twig', [
