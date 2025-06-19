@@ -1,4 +1,15 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'class': 'flex flex-col gap-5'}}) }}
+    <div class="flex flex-col">
+        {{ form_label(form.title) }}
+        <p class="text-xs">255 caractères maximum</p>
+        {{ form_widget(form.title, {'attr': {'class': 'border-2 border-black'}}) }}
+    </div>
+    <div class="flex flex-col">
+        {{ form_label(form.description) }}
+        <p class="text-xs">255 caractères maximum</p>
+        {{ form_widget(form.description, {'attr': {'class': 'border-2 border-black min-h-[200px] max-h-[400px]'}}) }}
+    </div>
+    <div class="flex justify-center">
+        <button class="px-5 py-2 bg-green-500 hover:bg-green-400 hover:transition-all hover:duration-500 hover:ease-in-out">Enregistrer</button>
+    </div>
 {{ form_end(form) }}
