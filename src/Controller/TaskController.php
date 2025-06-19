@@ -111,6 +111,14 @@ final class TaskController extends AbstractController
         return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    /**
+     * Modifie le statut d'une tâche existante via un formulaire.
+     *
+     * @param Request $request La requête HTTP
+     * @param Task $task La tâche à supprimer
+     * @param TaskRepository $taskRepository Le repository pour supprimer la tâche
+     * @return Response Redirection vers la liste des tâches
+     */
     #[Route('/{id}/statut', name: 'app_task_toggle', methods: ['POST'])]
     public function toggle(Request $request, Task $task, TaskRepository $taskRepository): Response
     {
