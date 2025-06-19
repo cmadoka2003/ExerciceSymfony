@@ -26,9 +26,6 @@ RUN apt-get update && apt-get install -y libpq-dev unzip git \
 # Installer Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-RUN mkdir -p /tmp/php_sessions && chown symfony:symfony /tmp/php_sessions
-RUN echo "session.save_path = /tmp/php_sessions" > /usr/local/etc/php/conf.d/session.ini
-
 # Créer un utilisateur symfony
 RUN useradd -m symfony
 
@@ -42,6 +39,9 @@ COPY --from=node_builder /app/public/build /app/public/build
 
 # Changer les droits pour l'utilisateur symfony
 RUN chown -R symfony:symfony /app
+
+RUN mkdir -p /tmp/php_sessions && chown symfony:symfony /tmp/php_sessions
+RUN echo "session.save_path = /tmp/php_sessions" > /usr/local/etc/php/conf.d/session.ini
 
 USER symfony
 
