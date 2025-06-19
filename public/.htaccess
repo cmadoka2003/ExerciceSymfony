@@ -1,0 +1,16 @@
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Si le fichier ou dossier existe, ne rien faire
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # Sinon, rediriger vers index.php
+    RewriteRule ^ index.php [L]
+</IfModule>
+
+# Empêcher l'accès aux fichiers .htaccess
+<FilesMatch "^\.ht">
+    Require all denied
+</FilesMatch>
