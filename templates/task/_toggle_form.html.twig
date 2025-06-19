@@ -1,0 +1,8 @@
+<form method="post" action="{{ path('app_task_toggle', {'id': task.id}) }}">
+    <input type="hidden" name="_token" value="{{ csrf_token('toggle' ~ task.id) }}">
+    {% if task.statut %}
+        <button class="px-3 py-1 bg-green-300 hover:bg-green-400 hover:transition-all hover:duration-500 hover:ease-in-out" href="">Terminée</button>
+    {% else %}
+        <button class="px-3 py-1 bg-red-300 hover:bg-red-400 hover:transition-all hover:duration-500 hover:ease-in-out" href="">En cours</button>
+    {% endif %}
+</form>
