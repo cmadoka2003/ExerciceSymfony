@@ -60,36 +60,14 @@ final class TaskControllerTest extends WebTestCase
 
         self::assertResponseStatusCodeSame(200);
 
-        $this->client->submitForm('Save', [
+        $this->client->submitForm('Enregistrer', [
             'task_form[title]' => 'Testing',
             'task_form[description]' => 'Testing',
-            'task_form[statut]' => true,
         ]);
 
         self::assertResponseRedirects('/task');
 
         self::assertSame(1, $this->taskRepository->count([]));
-    }
-
-    /**
-     * Test de l'affichage d'une tâche spécifique.
-     * Crée une tâche en base, puis vérifie que la page de détail est accessible.
-     */
-    public function testShow(): void
-    {
-        $task = new Task();
-        $task->setTitle('My Title');
-        $task->setDescription('My Title');
-        $task->setStatut(true);
-
-        // Sauvegarde de la tâche en base avec flush immédiat
-        $this->taskRepository->save($task, true);
-
-        // Requête GET sur la page de détail de la tâche
-        $this->client->request('GET', sprintf('%s%s', $this->path, $task->getId()));
-
-        self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Task');
     }
 
     /**
@@ -101,16 +79,15 @@ final class TaskControllerTest extends WebTestCase
         $task = new Task();
         $task->setTitle('Value');
         $task->setDescription('Value');
-        $task->setStatut(true);
+        $task->setStatut(false);
 
         $this->taskRepository->save($task);
 
         $this->client->request('GET', sprintf('%s%s/edit', $this->path, $task->getId()));
 
-        $this->client->submitForm('Update', [
+        $this->client->submitForm('Enregistrer', [
             'task_form[title]' => 'Something New',
             'task_form[description]' => 'Something New',
-            'task_form[statut]' => true,
         ]);
 
         self::assertResponseRedirects('/task');
@@ -119,7 +96,6 @@ final class TaskControllerTest extends WebTestCase
 
         self::assertSame('Something New', $updated->getTitle());
         self::assertSame('Something New', $updated->getDescription());
-        self::assertTrue($updated->isStatut());
     }
 
     /**
@@ -131,14 +107,36 @@ final class TaskControllerTest extends WebTestCase
         $task = new Task();
         $task->setTitle('Value');
         $task->setDescription('Value');
-        $task->setStatut(true);
+        $task->setStatut(false);
 
         $this->taskRepository->save($task);
 
-        $this->client->request('GET', sprintf('%s%s', $this->path, $task->getId()));
-        $this->client->submitForm('Delete');
+        $this->client->request('GET', '/task');
+        $this->client->submitForm('Supprimer');
 
         self::assertResponseRedirects('/task');
         self::assertSame(0, $this->taskRepository->count([]));
+    }
+
+    /**
+     * Test de la modification du statut d'une tâche.
+     * Crée une tâche, la modifie via formulaire, puis vérifie la mise à jour en base.
+     */
+    public function testToggle(): void
+    {
+        $task = new Task();
+        $task->setTitle('Value');
+        $task->setDescription('Value');
+        $task->setStatut(false);
+
+        $this->taskRepository->save($task);
+
+        $this->client->request('GET', '/task');
+        $this->client->submitForm('En cours');
+
+        self::assertResponseRedirects('/task');
+        $updatedTask = $this->taskRepository->find($task->getId());
+
+        self::assertTrue($updatedTask->isStatut());
     }
 }

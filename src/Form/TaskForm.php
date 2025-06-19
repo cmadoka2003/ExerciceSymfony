@@ -29,7 +29,6 @@ class TaskForm extends AbstractType
         $builder
             ->add('title')                             // Champ pour le titre de la tâche
             ->add('description', TextareaType::class)  // Champ pour la description de la tâche
-            ->add('statut')                            // Champ pour le statut de la tâche
         ;
     }
 

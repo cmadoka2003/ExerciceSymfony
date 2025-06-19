@@ -51,6 +51,7 @@ final class TaskController extends AbstractController
 
         // Traitement du formulaire : si soumis et valide, sauvegarde et redirection
         if ($form->isSubmitted() && $form->isValid()) {
+            $task->setStatut(false);
             $taskRepository->save($task);
             return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -59,21 +60,6 @@ final class TaskController extends AbstractController
         return $this->render('task/new.html.twig', [
             'task' => $task,
             'form' => $form,
-        ]);
-    }
-
-    /**
-     * Affiche une tâche spécifique.
-     *
-     * @param Task $task L'entité Task à afficher
-     * @return Response La réponse HTTP contenant la vue de la tâche
-     */
-    #[Route('/{id}', name: 'app_task_show', methods: ['GET'])]
-    public function show(Task $task): Response
-    {
-        // Affiche la vue détaillée de la tâche
-        return $this->render('task/show.html.twig', [
-            'task' => $task,
         ]);
     }
 
@@ -119,6 +105,19 @@ final class TaskController extends AbstractController
         // Vérifie la validité du token CSRF pour la suppression
         if ($this->isCsrfTokenValid('delete'.$task->getId(), $request->getPayload()->getString('_token'))) {
             $taskRepository->delete($task);
+        }
+
+        // Redirection vers la liste des tâches
+        return $this->redirectToRoute('app_task_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/{id}/statut', name: 'app_task_toggle', methods: ['POST'])]
+    public function toggle(Request $request, Task $task, TaskRepository $taskRepository): Response
+    {
+        // Vérifie la validité du token CSRF pour la changement de statut
+        if ($this->isCsrfTokenValid('toggle'.$task->getId(), $request->getPayload()->getString('_token'))) {
+            $task->setStatut(!$task->isStatut());
+            $taskRepository->save($task);
         }
 
         // Redirection vers la liste des tâches
