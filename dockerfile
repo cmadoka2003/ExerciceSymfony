@@ -1,5 +1,3 @@
-# Dockerfile basique pour Symfony PHP 8.1 + serveur intégré
-
 FROM php:8.2-cli
 
 # Installer les extensions PHP nécessaires (pdo, pdo_pgsql, etc.)
@@ -9,11 +7,19 @@ RUN apt-get update && apt-get install -y libpq-dev unzip git \
 # Installer composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
+# Créer le dossier de l'app en avance
 WORKDIR /app
-
 COPY . /app
 
-RUN composer install --no-dev --optimize-autoloader --no-scripts \
+# Crée un utilisateur symfony (non-root)
+RUN useradd -m symfony \
+    && chown -R symfony:symfony /app
+
+# Change d'utilisateur
+USER symfony
+
+# Installer les dépendances (scripts activés)
+RUN composer install --no-dev --optimize-autoloader \
     && php bin/console cache:clear \
     && php bin/console assets:install public
 
