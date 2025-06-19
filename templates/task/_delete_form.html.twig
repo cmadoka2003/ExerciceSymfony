@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('app_task_delete', {'id': task.id}) }}" onsubmit="return confirm('Vous êtes sur le point de supprimer cette tâche. Êtes-vous sûr de vouloir continuer ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+    <button class="px-5 py-2 bg-red-500 hover:bg-red-400 hover:transition-all hover:duration-500 hover:ease-in-out">Supprimer</button>
+</form>

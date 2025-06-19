@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Task{% endblock %}
+
+{% block body %}
+    <h2 class="text-xl my-5 truncate max-w-[300px]">Modifier la tâche : {{ task.title }}</h2>
+
+    {{ include('task/_form.html.twig') }}
+
+    <a class="px-5 py-2 m-3 bg-gray-500 hover:bg-gray-400 hover:transition-all hover:duration-500 hover:ease-in-out" href={{ path('app_task_index') }}>Retour à la liste</a>
+{% endblock %}

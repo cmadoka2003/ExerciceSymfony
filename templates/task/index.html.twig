@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Tâches{% endblock %}
+
+{% block description %}Liste des tâches existantes dans l'application{% endblock %}
+
+{% block body %}
+	<a class="text-2xl px-10 py-2 my-5 bg-green-700 hover:bg-green-400 hover:transition-all hover:duration-500 hover:ease-in-out" href={{ path('app_task_new') }}>Nouvelle Tâche</a>
+	<h2 class="text-xl">Liste des Tâches</h2>
+	<section class="flex flex-row flex-wrap justify-center items-center">
+        {% for task in tasks %}
+            <div class="w-[300px] min-h-[350px] p-5 my-5 mx-3 bg-gray-100 shadow-md rounded-lg flex flex-col justify-between {{ task.statut ? 'opacity-50' : '' }}">
+                <div class="flex flex-row justify-between">
+                    <h3 class="text-xl font-bold truncate max-w-[150px]">{{ task.title }}</h3>
+                    {{ include('task/_toggle_form.html.twig') }}
+                </div>
+                <p class="my-3">{{ task.description }}</p>
+                <div class="flex flex-row justify-between">
+                    <a class="px-5 py-2 bg-orange-500 hover:bg-orange-400 hover:transition-all hover:duration-500 hover:ease-in-out" href={{ path('app_task_edit', {'id': task.id}) }}>Modifier</a>
+					{{ include('task/_delete_form.html.twig') }}
+                </div>
+            </div>
+        {% endfor %}
+    </section>
+{% endblock %}
