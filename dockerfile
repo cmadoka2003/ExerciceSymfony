@@ -9,15 +9,13 @@ RUN apt-get update && apt-get install -y libpq-dev unzip git \
 # Installer composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Installer le binaire Symfony CLI (nécessaire pour symfony-cmd)
-RUN curl -sS https://get.symfony.com/cli/installer | bash \
-    && mv /root/.symfony*/bin/symfony /usr/local/bin/symfony
-
 WORKDIR /app
 
 COPY . /app
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-scripts \
+    && php bin/console cache:clear \
+    && php bin/console assets:install public
 
 EXPOSE 8000
 
