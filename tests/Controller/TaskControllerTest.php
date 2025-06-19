@@ -46,7 +46,7 @@ final class TaskControllerTest extends WebTestCase
         $crawler = $this->client->request('GET', $this->path);
 
         self::assertResponseStatusCodeSame(200);
-        self::assertPageTitleContains('Task index');
+        self::assertPageTitleContains('Liste des Tâches');
     }
 
     /**

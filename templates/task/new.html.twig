@@ -3,9 +3,9 @@
 {% block title %}New Task{% endblock %}
 
 {% block body %}
-    <h1>Create new Task</h1>
+    <h2 class="text-xl my-5">Créer une nouvelle tâche</h2>
 
     {{ include('task/_form.html.twig') }}
 
-    <a href="{{ path('app_task_index') }}">back to list</a>
+    <a class="px-5 py-2 m-3 bg-gray-500 hover:bg-gray-400 hover:transition-all hover:duration-500 hover:ease-in-out" href={{ path('app_task_index') }}>Retour à la liste</a>
 {% endblock %}

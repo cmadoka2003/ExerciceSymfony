@@ -6,6 +6,7 @@ use App\Entity\Task;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 /**
  * Class TaskForm
@@ -26,9 +27,9 @@ class TaskForm extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')        // Champ pour le titre de la tâche
-            ->add('description')  // Champ pour la description de la tâche
-            ->add('statut')       // Champ pour le statut de la tâche
+            ->add('title')                             // Champ pour le titre de la tâche
+            ->add('description', TextareaType::class)  // Champ pour la description de la tâche
+            ->add('statut')                            // Champ pour le statut de la tâche
         ;
     }
 
